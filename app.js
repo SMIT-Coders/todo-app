@@ -21,10 +21,10 @@ function pushList() {
         i++;
     }
     else {
-        document.getElementsByClassName("ok-button")[0].focus();
-        document.getElementById("input").blur();
         document.body.children[1].classList.add("modal");
         document.body.children[1].classList.remove("hidden");
+        document.getElementsByClassName("ok-button")[0].focus();
+        document.getElementById("input").blur();
     }
 
 }
@@ -36,34 +36,47 @@ function deleteBtn(i) {
 function deleteAll() {
     document.querySelector("ol").innerHTML = "";
 }
-
+var value1;
 function editBtn(i) {
-    document.getElementById(`id${i}`).innerHTML = `<form onsubmit="return false">
-        <input type="text" id="newInput">
-        <button class="hidden" onclick="editBtn2(${i});"></button>
-    </form>
-    <i class="fa-solid fa-trash hidden" onclick="deleteBtn(${i});"></i>
-    <i class="edit fa-solid fa-pen hidden" onclick="editBtn(${i});"></i>
-    `;
-    document.getElementById("newInput").focus();
+    var getList = document.getElementById(`id${i}`);
+    value1 = getList.innerHTML; 
+    var newIcon = document.createElement("i");
+    newIcon.setAttribute("id", "close");
+    newIcon.setAttribute("class", "fa-solid fa-xmark");
+    newIcon.setAttribute("onclick", `closeBtn(${i})`);
+    var icon1 = document.getElementById(`id${i}`).children[0]
+    var icon2 = document.getElementById(`id${i}`).children[1]
+    getList.innerText = "";
+    var newInput = document.createElement("input");
+    newInput.setAttribute("type", "text");
+    newInput.setAttribute("id", "newInput");
+    getList.appendChild(newInput);
+    getList.appendChild(newIcon);
+    newInput.focus();
+    newInput.addEventListener("keypress", function (event) {
+        if (event.key === "Enter") {
+            if (newInput.value !== "") {
+
+                var newValue = document.getElementById("newInput").value;
+                getList.innerText = newValue;
+                getList.appendChild(icon1);
+                getList.appendChild(icon2);
+            }
+            else {
+                document.body.children[1].classList.add("modal");
+                document.body.children[1].classList.remove("hidden");
+                document.getElementsByClassName("ok-button")[0].focus();
+                document.getElementById("newInput").blur();
+            }
+        }
+    })
 }
-
-function editBtn2(i) {
-    var inputValue = document.getElementById("newInput").value;
-    // document.getElementById(`id${i}`).innerHTML = inputValue;
-
-    document.getElementById(`id${i}`).innerHTML = `${inputValue}
-    <i class="fa-solid fa-trash" onclick="deleteBtn(${i});"></i>
-    <i class="edit fa-solid fa-pen" onclick="editBtn(${i});"></i>
-    `;
-    console.log(
-        document.getElementById(`id${i}`)
-    );
-}
-
 function modalClose() {
     var modalClass = document.getElementsByClassName("modal")[0];
     modalClass.classList.add("hidden");
     modalClass.classList.remove("modal");
-    document.getElementById("input").focus();
+}
+
+function closeBtn(i) {
+    document.getElementById(`id${i}`).innerHTML = value1;
 }

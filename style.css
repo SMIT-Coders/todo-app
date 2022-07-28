@@ -199,6 +199,11 @@ ol {
     font-size: 20px;
 }
 
+#close {
+    font-size: 40px;
+
+}
+
 #newInput {
     /* width: ; */
     padding: 10px;
@@ -209,7 +214,7 @@ ol {
     border-top-left-radius: 2px;
     border-bottom-left-radius: 2px;
     transition: .2s;
-    flex: 1;
+    /* flex: 1; */
 }
 
 #newInput:focus {
